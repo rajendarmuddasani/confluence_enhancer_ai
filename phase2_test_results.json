@@ -1,0 +1,167 @@
+{
+  "total_tests": 5,
+  "passed_tests": 5,
+  "success_rate": "100.0%",
+  "overall_status": "PASS",
+  "detailed_results": {
+    "data_extractor": {
+      "status": "success",
+      "tables_extracted": 1,
+      "data_quality": "high",
+      "visualization_suggestions": 0,
+      "sample_analysis": {
+        "data_quality": "high",
+        "quality_score": 1.0,
+        "column_analysis": {
+          "Service": {
+            "data_type": "categorical",
+            "non_null_count": "4",
+            "null_count": "0",
+            "stats": {
+              "unique_values": 4,
+              "most_common": "User Service",
+              "most_common_count": "1"
+            }
+          },
+          "Response Time (ms)": {
+            "data_type": "categorical",
+            "non_null_count": "4",
+            "null_count": "0",
+            "stats": {
+              "unique_values": 4,
+              "most_common": "250",
+              "most_common_count": "1"
+            }
+          },
+          "Throughput (req/sec)": {
+            "data_type": "categorical",
+            "non_null_count": "4",
+            "null_count": "0",
+            "stats": {
+              "unique_values": 4,
+              "most_common": "1200",
+              "most_common_count": "1"
+            }
+          },
+          "Error Rate (%)": {
+            "data_type": "categorical",
+            "non_null_count": "4",
+            "null_count": "0",
+            "stats": {
+              "unique_values": 4,
+              "most_common": "0.5",
+              "most_common_count": "1"
+            }
+          },
+          "Availability (%)": {
+            "data_type": "categorical",
+            "non_null_count": "4",
+            "null_count": "0",
+            "stats": {
+              "unique_values": 4,
+              "most_common": "99.9",
+              "most_common_count": "1"
+            }
+          }
+        },
+        "patterns": [
+          "performance_metrics",
+          "time_series"
+        ],
+        "shape": {
+          "rows": 4,
+          "columns": 5
+        },
+        "missing_data_percentage": 0.0
+      }
+    },
+    "concept_processor": {
+      "status": "success",
+      "concepts_identified": 9,
+      "diagrams_generated": 3,
+      "concept_types": [
+        "process",
+        "business",
+        "technology"
+      ],
+      "sample_concepts": [
+        {
+          "name": "Process",
+          "type": "process",
+          "confidence": 0.8
+        },
+        {
+          "name": "steps",
+          "type": "process",
+          "confidence": 0.8
+        },
+        {
+          "name": "Java",
+          "type": "technology",
+          "confidence": 0.8
+        }
+      ]
+    },
+    "dashboard_generator": {
+      "status": "success",
+      "dashboard_created": true,
+      "charts_generated": 2,
+      "dashboard_title": "Service Performance Dashboard",
+      "chart_types": [
+        "bar",
+        "line"
+      ]
+    },
+    "modernization_engine": {
+      "status": "success",
+      "technologies_detected": 5,
+      "outdated_technologies": 5,
+      "modernization_suggestions": 5,
+      "roadmap_phases": 3,
+      "sample_technologies": [
+        {
+          "technology": "java 8",
+          "status": "outdated",
+          "modern_alternative": "Java 17+",
+          "urgency": "medium",
+          "category": "runtime"
+        },
+        {
+          "technology": "jsf",
+          "status": "outdated",
+          "modern_alternative": "React/Angular",
+          "urgency": "high",
+          "category": "framework"
+        },
+        {
+          "technology": "tomcat 7",
+          "status": "outdated",
+          "modern_alternative": "Tomcat 10+",
+          "urgency": "high",
+          "category": "runtime"
+        },
+        {
+          "technology": "struts",
+          "status": "outdated",
+          "modern_alternative": "Spring Boot",
+          "urgency": "critical",
+          "category": "framework"
+        },
+        {
+          "technology": "jquery 1.8",
+          "status": "outdated",
+          "modern_alternative": "Modern JS/React",
+          "urgency": "high",
+          "category": "runtime"
+        }
+      ]
+    },
+    "integration": {
+      "tables_found": 1,
+      "concepts_identified": 9,
+      "technologies_detected": 5,
+      "status": "success",
+      "dashboard_generated": true
+    }
+  }
+}

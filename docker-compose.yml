@@ -1,0 +1,99 @@
+version: '3.8'
+
+services:
+  # Main application
+  confluence-enhancer:
+    build: .
+    container_name: confluence-enhancer-app
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=true
+      - ORACLE_HOST=oracle-db
+      - ORACLE_PORT=1521
+      - ORACLE_SERVICE=XE
+      - ORACLE_USER=confluence_user
+      - ORACLE_PASSWORD=secure_password
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - CONFLUENCE_BASE_URL=${CONFLUENCE_BASE_URL}
+      - CONFLUENCE_USERNAME=${CONFLUENCE_USERNAME}
+      - CONFLUENCE_API_TOKEN=${CONFLUENCE_API_TOKEN}
+      - SECRET_KEY=your-super-secret-key-change-in-production
+    depends_on:
+      - oracle-db
+      - redis
+    volumes:
+      - ./logs:/app/logs
+      - ./data:/app/data
+    restart: unless-stopped
+    networks:
+      - confluence-network
+
+  # Oracle Database
+  oracle-db:
+    image: gvenzl/oracle-xe:21-slim
+    container_name: confluence-enhancer-db
+    environment:
+      - ORACLE_PASSWORD=secure_password
+      - APP_USER=confluence_user
+      - APP_USER_PASSWORD=secure_password
+    ports:
+      - "1521:1521"
+    volumes:
+      - oracle_data:/opt/oracle/oradata
+      - ./database/init:/container-entrypoint-initdb.d
+    networks:
+      - confluence-network
+    restart: unless-stopped
+
+  # Redis for caching
+  redis:
+    image: redis:7-alpine
+    container_name: confluence-enhancer-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - confluence-network
+    restart: unless-stopped
+
+  # Frontend (if React app is built)
+  frontend:
+    build: ./frontend
+    container_name: confluence-enhancer-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://localhost:8000
+    depends_on:
+      - confluence-enhancer
+    networks:
+      - confluence-network
+    restart: unless-stopped
+
+  # Nginx reverse proxy
+  nginx:
+    image: nginx:alpine
+    container_name: confluence-enhancer-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/ssl:/etc/nginx/ssl
+    depends_on:
+      - confluence-enhancer
+      - frontend
+    networks:
+      - confluence-network
+    restart: unless-stopped
+
+volumes:
+  oracle_data:
+  redis_data:
+
+networks:
+  confluence-network:
+    driver: bridge
